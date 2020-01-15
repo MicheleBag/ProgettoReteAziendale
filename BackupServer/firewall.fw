@@ -1,0 +1,18 @@
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP	
+
+#permetto connessioni tramite ssh
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+#consento connessioni da parte di esercito e marines
+iptables -A INPUT -m iprange --src-range 192.168.2.100-192.168.2.130 -j ACCEPT
+iptables -A INPUT -m iprange --src-range 192.168.5.100-192.168.5.130 -j ACCEPT
+
+#consento output verso le reti interne
+iptables -A OUTPUT -d 192.168.1.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.11.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.2.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.3.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.4.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.5.0/24 -j ACCEPT

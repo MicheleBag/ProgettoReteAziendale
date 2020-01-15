@@ -1,0 +1,30 @@
+// DEFINIZIONE MASTER
+
+// dns2 è master per interno.pentagono.it
+zone "interno.pentagono.it" {
+	type master;
+	file "/etc/bind/interno.pentagono.it.db";
+};
+
+// reverse mapping per interno.pentagono.it
+zone "3.168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/3.168.192.in-addr.arpa.db";
+};
+
+
+// DEFINIZIONE SLAVE
+
+// dns2 è slave per pentagono.it
+zone "pentagono.it" {
+	type slave;
+	file "/etc/bind/pentagono.it.bk";
+	masters { 192.168.47.10; };
+};
+
+// reverse mapping per pentagono.it
+zone "168.192.in-addr.arpa" {
+	type slave;
+	file "/etc/bind/168.192.in-addr.arpa.bk";
+	masters { 192.168.47.10; };
+};

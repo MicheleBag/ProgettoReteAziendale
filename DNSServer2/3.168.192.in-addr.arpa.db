@@ -1,0 +1,26 @@
+$TTL	86400
+@	IN	SOA	dns2.interno.pentagono.it.	root.interno.pentagono.it. (
+			2020011002	; serial
+			43200		; refresh
+			3600		; retry after 1 hour
+			3600000		; expire after 1000 hours
+			2592000		; default ttl
+)
+
+; Definizione dei nameserver e dei server mail
+	IN	NS	dns1.interno.pentagono.it.
+	IN	NS	dns2.interno.pentagono.it.
+	IN	MX	10	mail.pentagono.it.
+
+; Sottodomini in Interno Pentagono
+0.1	IN	PTR	smi1.interno.pentagono.it.
+0.11	IN	PTR	smi11.interno.pentagono.it.
+0.2	IN	PTR	esercito.interno.pentagono.it.
+0.3	IN	PTR	marina.interno.pentagono.it.
+0.4	IN	PTR	aeronautica.interno.pentagono.it.
+0.5	IN	PTR	marines.interno.pentagono.it.
+
+; Host in interno.pentagono.it
+10.3	IN	PTR	dns2.interno.pentagono.it.
+20.3	IN	PTR	app1.interno.pentagono.it.
+10.4	IN	PTR	app2.interno.pentagono.it.

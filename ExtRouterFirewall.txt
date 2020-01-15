@@ -1,0 +1,48 @@
+#IMPOSTIAMO LE POLICY A DROP BY DEFAULT
+
+iptables -P INPUT DROP
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD DROP
+iptables -t NAT -P PREROUTING DROP
+
+# Def Nome chain dmz
+iptables -N inetdmz
+iptables -A FORWARD -i !eth0 -o eth0 -j inetdmz		# da internet a DMZ
+
+# accetta pacchetti tcp verso il server web
+iptables -A inetdmz -d 192.168.47.30 -p tcp --dport www -j ACCEPT  
+    
+# accetta pacchetti tcp verso il server di posta (smtp)
+iptables -A inetdmz -d  -p tcp --dport smtp -j ACCEPT   
+  
+# accetta pacchetti tcp verso il server di posta (pop3) (ricezione)
+iptables -A inetdmz -d 192.168.47.20 -p tcp --dport pop3 -j ACCEPT     
+
+ # accetta pacchetti tcp verso il server DNS
+iptables -A inetdmz -d 192.168.47.10 -p tcp --dport domain -j ACCEPT  
+
+# accetta pacchetti udp verso il server DNS
+iptables -A inetdmz -d 192.168.47.10 -p udp --dport domain -j ACCEPT
+
+# Accetta tutti i pacchetti di connessioni gia stabilite o a loro correlate
+iptables -A FORWARD -m state --state ESTABLISHED, RELATED -j ACCEPT
+
+# Impossibilità di bloccarsi su porte chiuse
+iptables -A FORWARD -p tcp -j REJECT --reject-with tcp-reset
+
+
+#CONFIGURAZIONE NAT
+
+# I pacchetti uscenti prendono l'indirizzo del firewall
+iptables -t NAT -A POSTROUTING -o !eth0 -j SNAT --to-source 192.168.45.145
+
+# Tutte le richieste mail e pop3 vengono dirottate al server di posta
+iptables -t NAT -A PREROUTING -i !eth3 -p tcp --dport 25 -j DNAT --to-destination 192.168.47.20
+
+iptables -t NAT -A PREROUTING -i !eth3 -p tcp --dport 110 -j DNAT --to-destination  192.168.47.20
+
+# Ridireziona i pacchetti DNS al Server DNS
+iptables -t NAT -A PREROUTING -i eth0 -p tcp -dport 53 -j DNAT --to-destination 192.168.47.10
+
+# Ridireziona i pacchetti http al Server WEB
+iptables -t NAT -A PREROUTING -i eth0 -p tcp -dport 80 -j DNAT --to-destination 192.168.47.30

@@ -1,0 +1,26 @@
+$TTL	86400
+@	IN	SOA	dns1.pentagono.it.	root.pentagono.it. (
+			2020011001	; serial
+			43200		; refresh
+			3600		; retry after 1 hour
+			3600000		; expire after 1000 hours
+			2592000		; default ttl
+)
+
+; Definizione dei nameserver e dei server mail
+	IN	NS	dns1.pentagono.it.
+	IN	MX	10	mail.pentagono.it.
+  
+; Sottodomini in pentagono.it
+0.47	IN	PTR	dmz.pentagono.it.
+0.1	IN	PTR	smi1.pentagono.it.
+0.11	IN	PTR	smi11.pentagono.it.
+0.2	IN	PTR	esercito.pentagono.it.
+0.3	IN	PTR	marina.pentagono.it.
+0.4	IN	PTR	areonautica.pentagono.it.
+0.5	IN	PTR	marines.pentagono.it.
+
+; Host in pentagono.it
+10.47	IN	PTR	dns1.pentagono.it.
+20.47	IN	PTR	mail.pentagono.it.
+30.47	IN	PTR	www.pentagono.it.

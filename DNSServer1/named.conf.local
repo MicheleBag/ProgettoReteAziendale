@@ -1,0 +1,19 @@
+// DEFINIZIONE MASTER
+
+// dns1 è master per pentagono.it
+zone "pentagono.it" {
+	type master;
+	file "/etc/bind/pentagono.it.db";
+	allow-transfer{
+		192.168.3.10;
+	};
+};
+
+// reverse mapping per pentagono.it
+zone "168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/168.192.in-addr.arpa.db";
+	allow-transfer{
+		192.168.3.10;
+	};
+};

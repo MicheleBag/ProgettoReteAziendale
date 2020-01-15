@@ -1,0 +1,21 @@
+$TTL	86400
+@	IN	SOA	dns2.interno.pentagono.it.	root.interno.pentagono.it. (
+			2020011002	; serial
+			43200		; refresh
+			3600		; retry after 1 hour
+			3600000		; expire after 1000 hours
+			2592000		; default ttl
+)
+
+; Definizione dei nameserver e dei server mail
+	IN	NS	dns2.interno.pentagono.it.
+	IN	MX	10	mail.pentagono.it.
+
+; Host in interno.pentagono.it
+dns2.interno.pentagono.it.	IN	A	192.168.3.10
+app1.interno.pentagono.it.	IN	A	192.168.3.20
+app2.interno.pentagono.it.	IN	A	192.168.4.10
+
+; CNAME
+srvApp1	IN	CNAME	app1.interno.pentagono.it.
+srvApp2	IN	CNAME	app2.interno.pentagono.it.
